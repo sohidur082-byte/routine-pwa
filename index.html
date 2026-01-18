@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Daily Routine PWA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0f172a;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+.box{
+  background:#020617;
+  width:95%;
+  max-width:420px;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+h1{
+  text-align:center;
+  margin:0 0 10px;
+}
+.time{
+  text-align:center;
+  font-size:18px;
+  color:#38bdf8;
+  margin-bottom:15px;
+}
+.card{
+  border:1px solid #1e293b;
+  border-radius:12px;
+  padding:15px;
+}
+.card h2{
+  margin:0 0 8px;
+  color:#22c55e;
+}
+.card p{
+  margin:5px 0;
+  font-size:14px;
+}
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:#94a3b8;
+  margin-top:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1>📅 Daily Routine</h1>
+  <div class="time" id="time">Loading...</div>
+
+  <div class="card">
+    <h2 id="activity">Loading...</h2>
+    <p id="desc"></p>
+    <p id="mobile"></p>
+  </div>
+
+  <div class="footer">Timezone: Asia/Kolkata</div>
+</div>
+
+<script>
+function updateRoutine(){
+  const now = new Date(
+    new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"})
+  );
+
+  document.getElementById("time").innerText =
+    now.toLocaleTimeString("en-IN",{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+
+  const h = now.getHours();
+
+  let a="", d="", m="";
+
+  if(h>=6 && h<7){
+    a="🌅 Wake Up"; d="Fresh up & start day"; m="📵 No mobile";
+  }else if(h>=7 && h<8){
+    a="🚶 Exercise"; d="Walk / Stretching"; m="📱 10 min music";
+  }else if(h>=8 && h<9){
+    a="🍳 Breakfast"; d="News & relax"; m="📱 45 min";
+  }else if(h>=9 && h<10){
+    a="📘 Study"; d="Skill learning"; m="📱 15 min";
+  }else if(h>=10 && h<12){
+    a="💻 Work / Coding"; d="Deep focus time"; m="📱 30 min";
+  }else if(h>=12 && h<13){
+    a="🍛 Lunch"; d="Rest time"; m="📱 30 min";
+  }else if(h>=13 && h<15){
+    a="📝 Practice"; d="Revision / light work"; m="📱 20 min";
+  }else if(h>=15 && h<17){
+    a="🎮 Free Time"; d="Relax / friends"; m="📱 1 hour";
+  }else if(h>=17 && h<18){
+    a="☕ Break"; d="Walk & refresh"; m="📱 20 min";
+  }else if(h>=18 && h<19){
+    a="📖 Study"; d="Evening focus"; m="📱 20 min";
+  }else if(h>=19 && h<20){
+    a="🍽 Dinner"; d="Family time"; m="📱 30 min";
+  }else if(h>=20 && h<22){
+    a="🎬 Entertainment"; d="Movie / reels"; m="📱 1 hour";
+  }else if(h>=22 && h<23){
+    a="💬 Light Scroll"; d="Chat & relax"; m="📱 20 min";
+  }else{
+    a="😴 Sleep Time"; d="Rest for tomorrow"; m="📵 Mobile off";
+  }
+
+  document.getElementById("activity").innerText = a;
+  document.getElementById("desc").innerText = d;
+  document.getElementById("mobile").innerText = m;
+}
+
+updateRoutine();
+setInterval(updateRoutine,1000);
+
+// Service Worker
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
+</body>
+  </html>
